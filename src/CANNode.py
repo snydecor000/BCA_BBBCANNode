@@ -15,20 +15,19 @@ def main():
     print("Displaying received messages on the LCD")
 
     while True:
-        recvMsg = bus.recv(timeout=0.25)
+        recvMsg = bus.recv(timeout=1)
         #lcd.enable_display(True)
-        lcd.clear()
+        #lcd.clear()
         lcd.home()
         if(recvMsg != None):
-            strMsg = 'ID: ' + str(recvMsg.arbitration_id) + '\n'
+            strMsg = 'ID: ' + str(recvMsg.arbitration_id)
+            strMsg = strMsg.ljust(16) + '\n'
             for byte in recvMsg.data:
                 strMsg = strMsg + str(byte) + ' '
             lcd.message(strMsg)
             print(strMsg)
         else:
             lcd.message('ID:             \n                ')
-            print('ID:             \n                ')
-        time.sleep(0.25)
 
 if __name__ == "__main__":
     main()
