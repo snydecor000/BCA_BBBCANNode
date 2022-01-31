@@ -16,16 +16,16 @@ def main():
 
     while True:
         recvMsg = bus.recv(timeout=0.25)
-        lcd.enable_display(True)
-        lcd.clear()
-        lcd.home()
+        #lcd.enable_display(True)
+        #lcd.clear()
+        #lcd.home()
         if(recvMsg != None):
             strMsg = 'ID: ' + str(recvMsg.arbitration_id) + '\n'
             strMsg = strMsg + bytes(recvMsg.data)
             lcd.message(strMsg)
             print(strMsg)
         else:
-            lcd.message('1234567890123456\n1234567890123456')
+            lcd.message('ID:             \n                ')
             print('ID:             \n                ')
         time.sleep(0.25)
 
