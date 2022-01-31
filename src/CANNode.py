@@ -17,11 +17,12 @@ def main():
     while True:
         recvMsg = bus.recv(timeout=0.25)
         #lcd.enable_display(True)
-        #lcd.clear()
-        #lcd.home()
+        lcd.clear()
+        lcd.home()
         if(recvMsg != None):
             strMsg = 'ID: ' + str(recvMsg.arbitration_id) + '\n'
-            strMsg = strMsg + bytes(recvMsg.data)
+            for byte in recvMsg.data:
+                strMsg = strMsg + str(byte) + ' '
             lcd.message(strMsg)
             print(strMsg)
         else:
