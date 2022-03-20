@@ -12,6 +12,9 @@ def main():
     lcd = LCD.Adafruit_CharLCD(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7,
                                                lcd_columns, lcd_rows)
 
+    error = 1
+    non_error = 0
+
     print("Displaying received messages on the LCD")
 
     while True:
@@ -20,12 +23,17 @@ def main():
         #lcd.clear()
         lcd.home()
         if(recvMsg != None):
-            strMsg = 'ID: ' + str(recvMsg.arbitration_id)
-            strMsg = strMsg.ljust(16) + '\n'
-            for byte in recvMsg.data:
-                strMsg = strMsg + str(byte) + ' '
-            lcd.message(strMsg)
-            print(strMsg)
+            if(recvMsg.arbitration_id==409):
+                strMsg = 'ID: ' + str(recvMsg.arbitration_id)
+                strMsg = strMsg+' Acc: '+str(int(100*non_error/(error+non_error$
+                strMsg = strMsg.ljust(16) + '\n'
+                for byte in recvMsg.data:
+                    strMsg = strMsg + str(byte) + ' '
+                lcd.message(strMsg)
+                print(strMsg)
+                non_error = non_error + 1
+            else:
+                error = error+1
         else:
             lcd.message('ID:             \n                ')
 
