@@ -18,24 +18,35 @@ def main():
     print("Displaying received messages on the LCD")
 
     while True:
-        recvMsg = bus.recv(timeout=1)
-        #lcd.enable_display(True)
-        #lcd.clear()
-        lcd.home()
-        if(recvMsg != None):
-            if(recvMsg.arbitration_id==409):
-                strMsg = 'ID: ' + str(recvMsg.arbitration_id)
-                strMsg = strMsg+' Acc: '+str(int(100*non_error/(error+non_error$
-                strMsg = strMsg.ljust(16) + '\n'
-                for byte in recvMsg.data:
-                    strMsg = strMsg + str(byte) + ' '
-                lcd.message(strMsg)
-                print(strMsg)
-                non_error = non_error + 1
+        try:
+            recvMsg = bus.recv(timeout=1)
+
+            #lcd.enable_display(True)
+            #lcd.clear()
+            lcd.home()
+            if(recvMsg != None):
+                if(recvMsg.arbitration_id==409):
+                    strMsg = 'ID: ' + str(recvMsg.arbitration_id)
+                    strMsg = strMsg+' Acc: '+str(int(100*non_error/(error+non_error)))+'%'
+                    strMsg = strMsg.ljust(16) + '\n'
+                    #for byte in recvMsg.data:
+                    #    strMsg = strMsg + str(byte) + ' '
+                    strMsg = strMsg + str(error) + ' ' + str(non_error)
+                    lcd.message(strMsg)
+                    print(strMsg)
+                    non_error = non_error + 1
+                else:
+                    strMsg = 'ID: ' + str(recvMsg.arbitration_id) + '\n'
+                    for byte in recvMsg.data:
+                        strMsg = strMsg + str(byte) + ' '
+                    print(strMsg)
+                    error = error+1
             else:
-                error = error+1
-        else:
-            lcd.message('ID:             \n                ')
+                lcd.message('ID:             \n                ')
+                
+        except can.CanError:
+            error = error+1
+            print('There was an error')
 
 if __name__ == "__main__":
     main()
