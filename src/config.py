@@ -1,5 +1,8 @@
 #config.py
 
+# Expected CAN message
+expected_id   = 409
+
 # BeagleBone Black LCD pin configuration:
 lcd_rs        = 'P8_8'
 lcd_en        = 'P8_10'
