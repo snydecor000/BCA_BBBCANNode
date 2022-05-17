@@ -25,7 +25,7 @@ def main():
             #lcd.clear()
             lcd.home()
             if(recvMsg != None):
-                if(recvMsg.arbitration_id==409):
+                if(recvMsg.arbitration_id==expected_id):
                     strMsg = 'ID: ' + str(recvMsg.arbitration_id)
                     strMsg = strMsg+' Acc: '+str(int(100*non_error/(error+non_error)))+'%'
                     strMsg = strMsg.ljust(16) + '\n'
